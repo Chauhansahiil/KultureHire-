@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment via QR Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .qr-code {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .qr-code img {
+            max-width: 200px;
+            height: auto;
+        }
+        .confirmation {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .confirmation p {
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+    <script>
+        function generateTransactionID() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let id = '';
+            for (let i = 0; i < 12; i++) {
+                id += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return id;
+        }
+
+        function generateQRCode() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const amount = document.getElementById('amount').value;
+
+            if (name && phone && email && amount) {
+                const transactionID = generateTransactionID();
+                const upiLink = `upi://pay?pa=your-vpa@bank&pn=${encodeURIComponent(name)}&mc=&tid=${transactionID}&tr=${transactionID}&tn=Payment&am=${amount}&cu=INR`;
+
+                const qrCodeAPI = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
+                
+                document.getElementById('qrCodeImage').src = qrCodeAPI;
+                document.querySelector('.qr-code').style.display = 'block';
+                document.querySelector('.confirmation').style.display = 'block';
+            } else {
+                alert('Please fill out all the fields.');
+            }
+        }
+
+        function downloadReceipt(name, phone, email, amount, transactionID) {
+            const receiptContent = `
+                Payment Receipt
+                ==================
+                Name: ${name}
+                WhatsApp Number: ${phone}
+                Email: ${email}
+                Amount Paid: INR ${amount}
+                Transaction ID: ${transactionID}
+                ==================
+                Thank you for your payment!
+            `;
+            const blob = new Blob([receiptContent], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Receipt_${transactionID}.txt`;
+            link.click();
+        }
+
+        function confirmPayment() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const amount = document.getElementById('amount').value;
+            const transactionID = generateTransactionID();
+
+            downloadReceipt(name, phone, email, amount, transactionID);
+            alert("Payment confirmed! Your receipt has been downloaded.");
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Payment via QR Code</h2>
+    <div class="form-group">
+        <label for="name">Full Name*</label>
+        <input type="text" id="name" placeholder="Full Name">
+    </div>
+    <div class="form-group">
+        <label for="phone">WhatsApp Number (With ISD)*</label>
+        <input type="text" id="phone" placeholder="Ex- +919064973840">
+    </div>
+    <div class="form-group">
+        <label for="email">Email*</label>
+        <input type="email" id="email" placeholder="Email">
+    </div>
+    <div class="form-group">
+        <label for="amount">Amount*</label>
+        <input type="number" id="amount" placeholder="Enter Amount in INR">
+    </div>
+    <button onclick="generateQRCode()">Generate QR Code</button>
+
+    <div class="qr-code" style="display:none;">
+        <h3>Scan the QR Code to Pay</h3>
+        <img id="qrCodeImage" src="" alt="QR Code">
+    </div>
+
+    <div class="confirmation">
+        <p>After completing the payment, click below to confirm:</p>
+        <button onclick="confirmPayment()">Confirm Payment</button>
+    </div>
+</div>
+
+</body>
+</html>

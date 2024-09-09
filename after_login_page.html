@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Banking System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+            background-color: #00072d;
+        }
+        .left-panel {
+            flex: 1;
+            background-color: #1e296a;
+            color: #ffffff;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .left-panel h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .left-panel p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .left-panel a {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #1e296a;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 10px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .left-panel a:hover {
+            background-color: #ffcc00;
+            transform: scale(1.05);
+        }
+        .right-panel {
+            flex: 1;
+            background-image: url('your-image-path.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .navbar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: bold;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .navbar a:hover {
+            color: #ffcc00;
+        }
+        /* Dropdown Container */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        /* Dropdown Menu */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #1e296a;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .dropdown-content a:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropdown-btn {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-panel">
+            <h1>Welcome to Secure Banking System</h1>
+            <p>Experience a seamless and secure banking experience with our state-of-the-art system, ensuring your financial transactions are safe, quick, and efficient.</p>
+            <div>
+                <a href="#">Explore</a>
+                <a href="#">Discover</a>
+            </div>
+            
+        </div>
+        <div class="right-panel"></div>
+    </div>
+
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <div class="dropdown">
+            <a href="#" class="dropdown-btn">Transactions</a>
+            <div class="dropdown-content">
+                <a href="http://127.0.0.1:5501/testing_blockahin.html">Send Money</a>
+                <a href="#">Receive Money</a>
+            </div>
+        </div>
+        <a href="#">History</a>
+        <a href="#">Logout</a>
+    </div>
+
+</body>
+</html>
